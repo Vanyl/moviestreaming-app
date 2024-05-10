@@ -3,14 +3,12 @@ import Navbar from "../components/Navbar";
 import Home from "../views/Home";
 
 const Root = () => {
+  return (
+    <>
+      <Navbar />
+      <Outlet />
+    </>
+  );
+};
 
-    return (
-        <>
-        <Navbar/>
-            <Home/>
-            <Outlet /> 
-        </>
-    );
-  }
-
-  export default Root
+export default Root;
