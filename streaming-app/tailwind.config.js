@@ -7,7 +7,11 @@ module.exports = withMT({
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        amazonMenu: 'rgb(28,33,40)'
+      }
+    },
   },
   plugins: [],
 });
