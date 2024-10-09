@@ -2,17 +2,21 @@
 // * Hero section with a background image and a call to action button
 // * List of categories (Netflix originals, Top rated, Popular now, etc.)
 // * List of movies and series
-import { Outlet, Link } from "react-router-dom";
 import CarouselDefault from "../components/Carousel";
-import Movie from "../components/Movie";
+import TrendingMovies from "../components/TrendingMovies";
+import TrendingSeries from "../components/TrendingSeries";
+
 
 const Home = () => {
     return (
         <>
-         <CarouselDefault/>
-         <Movie />
+            <CarouselDefault />
+            <div className="max-w-7xl mx-auto px-4">
+            <TrendingMovies />
+            <TrendingSeries />
+            </div>
         </>
-    )
-}
+    );
+};
 
 export default Home;
