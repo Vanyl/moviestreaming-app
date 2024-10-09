@@ -3435,7 +3435,7 @@ body {
   display: flex;
   /* place-items: center; */
   /* background: linear-gradient(0deg, white, grey, black 50%) no-repeat; */
-  background: linear-gradient(180deg, #000000, #121513, #1d231f, #27312c, #324039, #3e4f46, #4a5f54, #567062) no-repeat;
+  /* background: linear-gradient(180deg, #000000, #121513, #1d231f, #27312c, #324039, #3e4f46, #4a5f54, #567062) no-repeat; */
   height: 100%;
 }
 

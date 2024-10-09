@@ -40,6 +40,7 @@ const TrendingMovies = () => {
         }
         return text;
     };
+    
     const renderTrendingMovieCard = (movie) => {
         const { title, overview, backdrop_path, id, release_date } = movie;
         return (
