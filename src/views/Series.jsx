@@ -9,6 +9,7 @@ import {
   Typography,
   Button,
 } from "@material-tailwind/react";
+import CarouselDefault from "../components/Carousel";
 
 const Series = () => {
   const apiKey = 'fe367ab8576243891c127d4f54eb4982';
@@ -33,7 +34,10 @@ const Series = () => {
  
 
   return (
-    <div className="flex"> 
+  <>
+      <CarouselDefault api={'https://api.themoviedb.org/3/tv/on_the_air'} />
+    <div className="flex">
+
       <div className="w-1/4 p-4"> 
         <Genres
           genre={genre}
@@ -86,6 +90,7 @@ const Series = () => {
         })}
       </div>
     </div>
+  </>
   );
 };
 
