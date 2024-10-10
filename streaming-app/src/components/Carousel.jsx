@@ -5,20 +5,20 @@ import { PlayIcon, PlusIcon } from "@heroicons/react/24/solid"
 import { InformationCircleIcon } from "@heroicons/react/24/outline"
 
 
-const CarouselDefault = () => {
+const CarouselDefault = ({api}) => {
   const apiKey = 'fe367ab8576243891c127d4f54eb4982';
   const img_1280 = 'https://image.tmdb.org/t/p/w1280'
   const unavailable = 'https://www.movienewz.com/img/films/poster-holder.jpg'
-  const [movies, setMovies] = useState([]); //initializing the state variable as an empty array
+  const [items, setItems] = useState([]); //initializing the state variable as an empty array
 
   const fetchCarousel = async () => {
     try {
-      const response = await fetch(`https://api.themoviedb.org/3/movie/now_playing?api_key=${apiKey}`);
+      const response = await fetch(`${api}?api_key=${apiKey}`);
       if (!response.ok) {
         throw new Error('Failed to fetch trending data');
       }
       const dataJson = await response.json();  // fetching data from API in JSON Format
-      setMovies(dataJson.results); //storing that data in the state
+      setItems(dataJson.results); //storing that data in the state
     } catch (error) {
       console.error(error);
     }
@@ -26,7 +26,7 @@ const CarouselDefault = () => {
 
   useEffect(() => {
     fetchCarousel();
-  }, []);
+  }, [api]);
 
   const truncate = (text, maxLength) => {
     if (text.length > maxLength) {
@@ -53,8 +53,8 @@ const CarouselDefault = () => {
         </div>
       )}
     >
-      {movies.slice(0, 5).map((movie) => {
-        const { id, title, backdrop_path, overview } = movie;
+      {items.slice(0, 5).map((movie) => {
+        const { id, title, original_name, backdrop_path, overview } = movie;
         return (
           <div key={id} className="relative h-full w-full">
             <img
@@ -70,7 +70,7 @@ const CarouselDefault = () => {
                   color="white"
                   className="mb-4 text-3xl md:text-4xl lg:text-5xl"
                 >
-                  {title}
+                  {title ? `${title}` : `${original_name}`}
                 </Typography>
                 <Typography
                   variant="lead"

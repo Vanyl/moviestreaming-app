@@ -2,6 +2,7 @@ import { Outlet, Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Genres from "../components/Genres";
 import useGenre from "../hooks/useGenre";
+import CarouselDefault from "../components/Carousel";
 
 
 const Movies = () => {
@@ -37,6 +38,8 @@ const Movies = () => {
     }, [genreURL]);
 
     return (
+      <>
+      <CarouselDefault api={'https://api.themoviedb.org/3/movie/now_playing'} />
         <div className="grid grid-cols-4 py-3 gap-2">
           <Genres
             genre={genre}
@@ -80,6 +83,7 @@ const Movies = () => {
                       );
             })}
         </div>
+      </>
     )
       }
 
