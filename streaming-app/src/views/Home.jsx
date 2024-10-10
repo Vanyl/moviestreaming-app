@@ -11,7 +11,7 @@ const Home = () => {
     return (
         <>
             <CarouselDefault />
-            <div className="max-w-7xl mx-auto px-4">
+            <div className="max-w-7xl mx-auto px-4 pb-4 space-y-10">
             <TrendingMovies />
             <TrendingSeries />
             </div>

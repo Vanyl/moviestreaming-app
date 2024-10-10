@@ -1,4 +1,4 @@
-import { Carousel, Typography, Button, IconButton } from "@material-tailwind/react";
+import { Carousel, Typography, Button } from "@material-tailwind/react";
 import { useEffect, useState } from "react";
 import amazonPrimeLogoBlue from "../assets/amazonPrimeLogoBlue.webp"
 import { PlayIcon, PlusIcon } from "@heroicons/react/24/solid"
@@ -38,8 +38,8 @@ const CarouselDefault = () => {
 
   return (
     <Carousel
-      transition={{ duration: 1 }}
-      className="h-366 w-screen rounded-lg overflow-hidden mb-[48px]"
+      transition={{ duration: 1, type: "tween" }}
+      className="h-5/6 w-screen rounded-lg overflow-hidden mb-[48px]"
       navigation={({ setActiveIndex, activeIndex, length }) => (
         <div className="absolute bottom-4 left-2/4 z-50 flex -translate-x-2/4 gap-2">
           {new Array(length).fill("").map((_, i) => (
@@ -60,7 +60,7 @@ const CarouselDefault = () => {
             <img
               src={backdrop_path ? `${img_1280}/${backdrop_path}` : unavailable}
               alt={title}
-              className="object-cover w-full"
+              className="object-cover h-auto w-full"
             />
             <div className="absolute inset-0 grid h-full w-full items-end bg-black/75">
               <div className="w-3/4 pl-12 pb-12 md:w-2/4 md:pl-20 md:pb-20 lg:pl-32 lg:pb-32 text-left">
@@ -80,7 +80,7 @@ const CarouselDefault = () => {
                   {truncate(overview, 80)}
                 </Typography>
                 <div className="flex gap-2">
-                  <Button size="lg" className="text-white w-80 bg-gray-800 flex justify-center items-center gap-2 hover:bg-white hover:text-black hidden md:inline-flex">
+                  <Button size="lg" className="text-white mr-5 w-80 bg-gray-800 flex justify-center items-center gap-2 hover:bg-white hover:text-black hidden md:inline-flex">
                     <PlayIcon className="h-5 w-5" />Watch Now
                   </Button>
                   <Button size="lg" color="white" className="text-white p-4 md:bg-transparent lg:bg-gray-800 hover:bg-white hover:text-black rounded-full hidden md:inline-flex">

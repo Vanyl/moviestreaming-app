@@ -42,16 +42,21 @@ const Navbar = () => {
 
   const [scrolled, setScrolled] = useState(false);
   const [dropDownOpen, setDropDownOpen] = useState(false);
+  console.log(window.scrollY)
+
+  const handleScroll = () => {
+    const isScrolled = window.scrollY > 0;
+    console.log('handleScroll called');
+    console.log(window.scrollY)
+    setScrolled(isScrolled);
+  };
 
   useEffect(() => {
-    const handleScroll = () => {
-      const isScrolled = window.scrollY > 0;
-      setScrolled(isScrolled);
-    };
-
+    console.log('added');
     window.addEventListener("scroll", handleScroll);
 
     return () => {
+      console.log('removed');
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
@@ -65,8 +70,8 @@ const Navbar = () => {
       {/* removed mx-auto */}
       <div className={`navbar-container px-[18px] flex items-center justify-between w-full ${scrolled ? "scrolled-container" : ""}`}>
         <div className="flex items-center md:hidden"
-          // onMouseEnter={() => setDropDownOpen(true)}
-          // onMouseLeave={() => setDropDownOpen(false)}
+        // onMouseEnter={() => setDropDownOpen(true)}
+        // onMouseLeave={() => setDropDownOpen(false)}
         >
           <button onClick={() => setDropDownOpen(!dropDownOpen)} className="text-white flex items-center gap-1 hover:bg-white hover:text-black">
             Menu <ChevronDownIcon className="h-3 w-3" />
