@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from "react";
 
 const SearchBar = () => {
-  const apiKey = "fe367ab8576243891c127d4f54eb4982";
   const [searchText, setSearchText] = useState("");
   const [content, setContent] = useState([]);
 
   const fetchSearch = async () => {
     const data = await fetch(
-      `https://api.themoviedb.org/3/search/multi?api_key=${apiKey}&language=en-US&query=${searchText}&include_adult=false`
+      `https://api.themoviedb.org/3/search/multi?api_key=${process.env.REACT_APP_TMDB_API_KEY}&language=en-US&query=${searchText}&include_adult=false`
     );
     const { results } = await data.json();
     setContent(results);

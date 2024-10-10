@@ -12,14 +12,13 @@ import { PlayIcon } from "@heroicons/react/24/solid"
 import Slider from './Slider.jsx'
 
 const TrendingSeries = () => {
-    const apiKey = 'fe367ab8576243891c127d4f54eb4982';
     const img_300 = 'https://image.tmdb.org/t/p/w780'
     const unavailable = 'https://www.movienewz.com/img/films/poster-holder.jpg'
     const [series, setSeries] = useState([]); //initializing the state variable as an empty array
 
     const fetchTrending = async () => {
         try {
-            const response = await fetch(`https://api.themoviedb.org/3/trending/tv/day?api_key=${apiKey}`);
+            const response = await fetch(`https://api.themoviedb.org/3/trending/tv/day?api_key=${process.env.REACT_APP_TMDB_API_KEY}`);
             if (!response.ok) {
                 throw new Error('Failed to fetch trending data');
             }

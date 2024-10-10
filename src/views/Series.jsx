@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import Genres from "../components/Genres";
-import useGenre from "../hooks/useGenre";
 import {
   Card,
   CardHeader,
@@ -12,18 +11,16 @@ import {
 import CarouselDefault from "../components/Carousel";
 
 const Series = () => {
-  const apiKey = 'fe367ab8576243891c127d4f54eb4982';
   const [state, setState] = useState([]);
   const [genre, setGenre] = useState([]);
   const [value, setValue] = useState([]);
-  const genreURL = useGenre(value);
   const img_tmdb = 'https://image.tmdb.org/t/p/w780' 
   const unavailable = 'https://www.movienewz.com/img/tvs/poster-holder.jpg'
  
  
   const fetchTrending = async () => {
     const data = await fetch(`
-    https://api.themoviedb.org/3/discover/tv?api_key=${apiKey}&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&with_genres=${genreURL}`);
+    https://api.themoviedb.org/3/discover/tv?api_key=${process.env.REACT_APP_TMDB_API_KEY}&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&with_genres=${genreURL}`);
     const dataJ = await data.json();
     setState(dataJ.results);
   };
