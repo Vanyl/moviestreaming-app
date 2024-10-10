@@ -42,21 +42,16 @@ const Navbar = () => {
 
   const [scrolled, setScrolled] = useState(false);
   const [dropDownOpen, setDropDownOpen] = useState(false);
-  console.log(window.scrollY)
 
   const handleScroll = () => {
     const isScrolled = window.scrollY > 0;
-    console.log('handleScroll called');
-    console.log(window.scrollY)
     setScrolled(isScrolled);
   };
 
   useEffect(() => {
-    console.log('added');
     window.addEventListener("scroll", handleScroll);
 
     return () => {
-      console.log('removed');
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
