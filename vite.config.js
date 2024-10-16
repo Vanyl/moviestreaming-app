@@ -8,6 +8,6 @@ export default defineConfig(({ mode }) => {
       'process.env.REACT_APP_TMDB_API_KEY': JSON.stringify(env.REACT_APP_TMDB_API_KEY)
     },
     plugins: [react()],
-    base: "/streaming-app/",
+    base: "/",
   }
 })

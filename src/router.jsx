@@ -10,7 +10,7 @@ import SearchBar from "./components/SearchBar.jsx";
 
 const router = createBrowserRouter([
   {
-    path: "streaming-app/",
+    path: "/",
     element: <App />,
     errorElement: <ErrorPage />,
     children: [

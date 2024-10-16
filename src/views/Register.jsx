@@ -81,7 +81,7 @@ const Login = () => {
               Already have an account?{" "}
               <Link
                 className="font-medium text-gray-900"
-                to={`/streaming-app/login`}
+                to={`/login`}
               >
                 Sign In
               </Link>
