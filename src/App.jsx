@@ -12,13 +12,15 @@ function App() {
       case '/movies':
         document.title = 'Amazon Prime | Watch Movies - stream now';
         break;
-      case 'series':
+      case '/series':
         document.title = 'Amazon Prime | Watch TV shows - stream now';
         break;
-      case 'login':
+      case '/login':
         document.title = 'Amazon Prime | Sign-in';
-      case 'register':
+        break;
+      case '/register':
         document.title = 'Amazon Prime | Registration';
+        break;
       default:
         document.title = 'Amazon Prime';
     }

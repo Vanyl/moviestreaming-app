@@ -5,19 +5,37 @@ import { PlayIcon, PlusIcon } from "@heroicons/react/24/solid"
 import { InformationCircleIcon } from "@heroicons/react/24/outline"
 
 
-const CarouselDefault = ({api}) => {
+const CarouselDefault = ({ api }) => {
   const img_1280 = 'https://image.tmdb.org/t/p/w1280'
   const unavailable = 'https://www.movienewz.com/img/films/poster-holder.jpg'
-  const [items, setItems] = useState([]); //initializing the state variable as an empty array
+  const [items, setItems] = useState([]);
+
+  const fetchLogo = async (id, mediaType) => {
+    const response = await fetch(`https://api.themoviedb.org/3/${mediaType}/${id}/images?api_key=${process.env.REACT_APP_TMDB_API_KEY}&include_image_language=en,null`);
+    if (!response.ok) {
+      throw new Error('Failed to fetch images');
+    }
+    const data = await response.json();
+    const logos = data.logos;
+    return logos.length > 0 ? `https://image.tmdb.org/t/p/w500/${logos[0].file_path}` : unavailable;
+  };
 
   const fetchCarousel = async () => {
     try {
       const response = await fetch(`${api}?api_key=${process.env.REACT_APP_TMDB_API_KEY}`);
       if (!response.ok) {
-        throw new Error('Failed to fetch trending data');
+        throw new Error('Failed to fetch carousel data');
       }
-      const dataJson = await response.json();  // fetching data from API in JSON Format
-      setItems(dataJson.results); //storing that data in the state
+      const dataJson = await response.json();
+
+      const itemsWithLogos = await Promise.all(
+        dataJson.results.map(async (item) => {
+          const mediaType = item.media_type || (api.includes('/movie') ? 'movie' : 'tv');
+          const logo = await fetchLogo(item.id, mediaType);
+          return { ...item, media_type: mediaType, logo }; 
+        })
+      );
+      setItems(itemsWithLogos);
     } catch (error) {
       console.error(error);
     }
@@ -52,13 +70,13 @@ const CarouselDefault = ({api}) => {
         </div>
       )}
     >
-      {items.slice(0, 5).map((movie) => {
-        const { id, title, original_name, backdrop_path, overview } = movie;
+      {items.slice(0, 5).map((item) => {
+        const { id, title, name, original_name, backdrop_path, overview, logo } = item;
         return (
           <div key={id} className="relative h-full w-full">
             <img
               src={backdrop_path ? `${img_1280}/${backdrop_path}` : unavailable}
-              alt={title}
+              alt={item.title || item.original_name}
               className="object-cover h-auto w-full"
             />
             <div className="absolute inset-0 grid h-full w-full items-end bg-black/75">
@@ -69,7 +87,15 @@ const CarouselDefault = ({api}) => {
                   color="white"
                   className="mb-4 text-3xl md:text-4xl lg:text-5xl"
                 >
-                  {title ? `${title}` : `${original_name}`}
+                  {logo && logo !== unavailable ? (
+                    <img
+                      src={logo}
+                      alt={item.media_type === 'movie' ? item.title : item.name}
+                      className="h-10 w-auto object-contain"
+                    />
+                  ) : (
+                    title ? title : original_name
+                  )}
                 </Typography>
                 <Typography
                   variant="lead"
