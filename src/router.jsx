@@ -5,7 +5,9 @@ import Home from "./views/Home.jsx";
 import Login from "./views/Login.jsx";
 import Register from "./views/Register.jsx";
 import Movies from "./views/Movies.jsx";
+import MoviePage from "./views/MoviePage.jsx";
 import Series from "./views/Series.jsx";
+import SeriePage from './views/SeriePage.jsx'
 import SearchBar from "./components/SearchBar.jsx";
 
 const router = createBrowserRouter([
@@ -31,8 +33,16 @@ const router = createBrowserRouter([
         element: <Movies />,
       },
       {
+        path: "movie/:id",
+        element: <MoviePage />
+      },
+      {
         path: "series",
         element: <Series />,
+      },
+      {
+        path: "tv/:id",
+        element: <SeriePage />
       },
       {
         path: "search",
