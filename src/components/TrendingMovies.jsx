@@ -15,7 +15,7 @@ const img_780 = 'https://image.tmdb.org/t/p/w1280'
 const unavailable = 'https://www.movienewz.com/img/films/poster-holder.jpg'
 
 const fetchMovieLogo = async (movieId) => {
-    const response = await fetch(`https://api.themoviedb.org/3/movie/${movieId}/images?api_key=${process.env.REACT_APP_TMDB_API_KEY}&include_image_language=en`);
+    const response = await fetch(`https://api.themoviedb.org/3/movie/${movieId}/images?api_key=${process.env.REACT_APP_TMDB_API_KEY}&include_image_language=en,es,null`);
     if (!response.ok) {
         throw new Error('Failed to fetch movie images');
     }
@@ -25,7 +25,7 @@ const fetchMovieLogo = async (movieId) => {
 };
 
 const TrendingMovies = () => {
-    const [movies, setMovies] = useState([]); //initializing the state variable as an empty array
+    const [movies, setMovies] = useState([]);
     const [currentIndex, setCurrentIndex] = useState(0);
     const itemsPerPage = {
         sm: 2,
@@ -114,16 +114,18 @@ const TrendingMovies = () => {
 
                         <CardBody className="absolute flex flex-col bottom-4 left-4 right-4 p-4 sm:flex">
                             <Typography color="white" className="font-bold text-xs sm:text-sm md:text-2xl">
-                                <img
-                                    src={logo || unavailable}
-                                    alt={movie.title}
-                                    className="h-10 w-auto object-contain" // Adjust size as needed
-                                />
+                                {logo && logo !== unavailable ? (
+                                    <img
+                                        src={logo}
+                                        alt={title}
+                                        className="h-10 w-auto object-contain"
+                                    />
+                                ) : (title)}
                             </Typography>
                             <CardFooter className="flex items-center gap-2 mt-4">
                                 <Link to={`/movie/${id}`}>
                                     <Button className="text-white text-base font-bold bg-gray-800/50 flex items-center gap-2 hover:bg-white hover:text-black px-4 py-4 transition-all">
-                                        <PlayIcon className="h-5 w-5" /> Play S. 1 Ep. 1
+                                        <PlayIcon className="h-5 w-5" /> Play
                                     </Button>
                                 </Link>
                                 <Button size="lg" color="white" className="text-white p-4 md:bg-transparent lg:bg-gray-800/50 hover:bg-white hover:text-black rounded-full hidden md:flex">
