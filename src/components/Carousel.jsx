@@ -18,7 +18,7 @@ const CarouselDefault = ({ api }) => {
     }
     const data = await response.json();
     const logos = data.logos;
-    return logos.length > 0 ? `https://image.tmdb.org/t/p/w500/${logos[0].file_path}` : unavailable;
+    return logos.length > 0 ? `https://image.tmdb.org/t/p/w780/${logos[0].file_path}` : unavailable;
   };
 
   const fetchCarousel = async () => {
