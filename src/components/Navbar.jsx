@@ -11,15 +11,15 @@ const Navbar = () => {
   const linksMenuLeft = [
     {
       name: "Home page",
-      link: "/streaming-app",
+      link: "/",
     },
     {
       name: "Movies",
-      link: "/streaming-app/movies",
+      link: "/movies",
     },
     {
       name: "TV Series",
-      link: "/streaming-app/series",
+      link: "/series",
     },
   ];
 
@@ -27,7 +27,7 @@ const Navbar = () => {
     {
       icon: <MagnifyingGlassIcon className="h-5 w-5 text-white" />,
       name: "Search",
-      link: "/streaming-app/search",
+      link: "/search",
     },
     {
       icon: <BookmarkIcon className="h-5 w-5 text-white" />,
@@ -36,7 +36,7 @@ const Navbar = () => {
     {
       // icon: '',
       name: "Login",
-      link: "/streaming-app/login",
+      link: "/login",
     },
   ]
 

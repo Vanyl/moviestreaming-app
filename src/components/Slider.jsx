@@ -19,7 +19,8 @@ const Slider = ({ items, itemsPerPage, render }) => {
     return (
         <div className="relative">
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-5">
-                {items.slice(currentIndex, currentIndex + itemsPerPage).map((item, index) => (
+            {/* <div className="flex overflow-x-auto space-x-4 overflow-x-hidden"> */}
+            {items.slice(currentIndex, currentIndex + itemsPerPage).map((item, index) => (
                     <div key={index}>
                         {render(item)}
                     </div>

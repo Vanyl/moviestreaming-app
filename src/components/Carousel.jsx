@@ -5,20 +5,49 @@ import { PlayIcon, PlusIcon } from "@heroicons/react/24/solid"
 import { InformationCircleIcon } from "@heroicons/react/24/outline"
 
 
-const CarouselDefault = ({api}) => {
-  const apiKey = 'fe367ab8576243891c127d4f54eb4982';
+const CarouselDefault = ({ api }) => {
   const img_1280 = 'https://image.tmdb.org/t/p/w1280'
   const unavailable = 'https://www.movienewz.com/img/films/poster-holder.jpg'
-  const [items, setItems] = useState([]); //initializing the state variable as an empty array
+  const [items, setItems] = useState([]);
+  const [isMobile, setIsMobile] = useState(false);
+
+  const fetchLogo = async (id, mediaType) => {
+    const response = await fetch(`https://api.themoviedb.org/3/${mediaType}/${id}/images?api_key=${process.env.REACT_APP_TMDB_API_KEY}&include_image_language=en,null`);
+    if (!response.ok) {
+      throw new Error('Failed to fetch images');
+    }
+    const data = await response.json();
+    const logos = data.logos;
+    return logos.length > 0 ? `https://image.tmdb.org/t/p/w500/${logos[0].file_path}` : unavailable;
+  };
 
   const fetchCarousel = async () => {
     try {
-      const response = await fetch(`${api}?api_key=${apiKey}`);
+      const response = await fetch(`${api}?api_key=${process.env.REACT_APP_TMDB_API_KEY}`);
       if (!response.ok) {
-        throw new Error('Failed to fetch trending data');
+        throw new Error('Failed to fetch carousel data');
       }
-      const dataJson = await response.json();  // fetching data from API in JSON Format
-      setItems(dataJson.results); //storing that data in the state
+      const dataJson = await response.json();
+
+      let itemsWithLogos;
+
+      // fetching a single movie
+      if (dataJson.id) {
+        const mediaType = api.includes("/movie") ? "movie" : "tv";
+        const logo = await fetchLogo(dataJson.id, mediaType);
+        itemsWithLogos = [{ ...dataJson, logo }];
+      } else {
+        // fetching multiple items
+        itemsWithLogos = await Promise.all(
+          dataJson.results.map(async (item) => {
+            const mediaType = item.media_type || (api.includes("/movie") ? "movie" : "tv");
+            const logo = await fetchLogo(item.id, mediaType);
+            return { ...item, media_type: mediaType, logo };
+          })
+        );
+      }
+
+      setItems(itemsWithLogos);
     } catch (error) {
       console.error(error);
     }
@@ -35,17 +64,26 @@ const CarouselDefault = ({api}) => {
     return text;
   };
 
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    }
+    handleResize(); 
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  },[])
+
 
   return (
     <Carousel
       transition={{ duration: 1, type: "tween" }}
       className="h-5/6 w-screen rounded-lg overflow-hidden mb-[48px]"
       navigation={({ setActiveIndex, activeIndex, length }) => (
-        <div className="absolute bottom-4 left-2/4 z-50 flex -translate-x-2/4 gap-2">
-          {new Array(length).fill("").map((_, i) => (
+        <div className="absolute bottom-4 z-50 flex justify-center w-full gap-2">
+          {Array.from({ length }, (_, i) => (
             <span
               key={i}
-              className={`block h-1.5 cursor-pointer rounded-2xl transition-all content-[''] ${activeIndex === i ? "w-3.5 bg-white" : "w-1.5 bg-white/50"
+              className={`h-1.5 cursor-pointer rounded-full ${activeIndex === i ? "w-3.5 bg-white" : "w-1.5 bg-white/50"
                 }`}
               onClick={() => setActiveIndex(i)}
             />
@@ -53,13 +91,15 @@ const CarouselDefault = ({api}) => {
         </div>
       )}
     >
-      {items.slice(0, 5).map((movie) => {
-        const { id, title, original_name, backdrop_path, overview } = movie;
+      {items.slice(0, 5).map((item) => {
+        const { id, title, name, original_name, backdrop_path, poster_path, overview, logo } = item;
         return (
           <div key={id} className="relative h-full w-full">
             <img
-              src={backdrop_path ? `${img_1280}/${backdrop_path}` : unavailable}
-              alt={title}
+              src={
+                isMobile ? poster_path ? `${img_1280}/${poster_path}` : unavailable : backdrop_path ? `${img_1280}/${backdrop_path}` : unavailable
+              }
+              alt={title || original_name}
               className="object-cover h-auto w-full"
             />
             <div className="absolute inset-0 grid h-full w-full items-end bg-black/75">
@@ -70,7 +110,15 @@ const CarouselDefault = ({api}) => {
                   color="white"
                   className="mb-4 text-3xl md:text-4xl lg:text-5xl"
                 >
-                  {title ? `${title}` : `${original_name}`}
+                  {logo && logo !== unavailable ? (
+                    <img
+                      src={logo}
+                      alt={title || original_name}
+                      className=" h-[10vw] md:h-[15vw]w-auto object-contain"
+                    />
+                  ) : (
+                    title ? title : original_name
+                  )}
                 </Typography>
                 <Typography
                   variant="lead"

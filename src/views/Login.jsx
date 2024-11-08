@@ -51,7 +51,7 @@ const Login = () => {
               New to Amazon?{" "}
               <Link
                 className="font-medium text-gray-900"
-                to={`/streaming-app/register`}
+                to={`/register`}
               >
                 Create an account
               </Link>
