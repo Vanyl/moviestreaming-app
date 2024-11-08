@@ -9,8 +9,8 @@ import {
 import { Link } from "react-router-dom";
 import { PlayIcon } from "@heroicons/react/24/solid";
 
-const CardComponent = ({ item, img_780, unavailable }) => {
-    const { title, original_name, overview, poster_path, backdrop_path, id, release_date, first_air_date } = item;
+const CardComponent = ({ item, img_780, unavailable, media }) => {
+    const { title, media_type, original_name, overview, poster_path, backdrop_path, id, release_date, first_air_date } = item;
 
     const truncate = (text, maxLength) => {
         if (text.length > maxLength) {
@@ -44,7 +44,7 @@ const CardComponent = ({ item, img_780, unavailable }) => {
                     </Typography>
                 </CardBody>
                 <CardFooter className="pt-0 pb-0 mb-5 flex justify-center items-center hidden group-hover:flex">
-                    <Link to={`/${item}/${id}`}>
+                    <Link to={`/${media}/${id}`}>
                         <Button className="text-white w-full bg-gray-800 flex justify-item items-center gap-1 hover:bg-white hover:text-black">
                             <PlayIcon className="h-5 w-5" /> Lecture
                         </Button>
